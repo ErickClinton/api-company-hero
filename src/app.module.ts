@@ -5,8 +5,10 @@ import { RecomendationModule } from "./api/app/recomendation/recomendation.modul
 import { OpenWeatherModule } from "./api/app/recomendation/producer/open-weather/openWeather.module";
 import { HttpModule } from "@nestjs/axios";
 import { ConfigModule } from "@nestjs/config";
+import { AuthenticationModule } from "./api/app/recomendation/producer/spotify/authentication/authentication.module";
+import { SpotifyModule } from "./api/app/recomendation/producer/spotify/Spotify.module";
 
-const internModules = [RecomendationModule, OpenWeatherModule, HttpModule];
+const internModules = [RecomendationModule, OpenWeatherModule, HttpModule, AuthenticationModule, SpotifyModule];
 @Module({
     imports: [
         ConfigModule.forRoot({
