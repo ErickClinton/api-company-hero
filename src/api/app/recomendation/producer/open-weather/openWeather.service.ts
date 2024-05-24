@@ -28,7 +28,7 @@ export class OpenWeatherService {
                 });
             const temperature = response.main.temp;
 
-            this.logger.log(`End service getTemperatureByCity - Request - ${JSON.stringify({ temperature })}`);
+            this.logger.log(`End service getTemperatureByCity - Response - ${JSON.stringify({ temperature })}`);
 
             return temperature;
         } catch (error) {

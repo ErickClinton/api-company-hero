@@ -10,7 +10,7 @@ export class RecomendationService {
         try {
             this.logger.log(`Start service getRecomendation - Request - ${JSON.stringify({ city })}`);
             const response = await this.openWeatherService.getTemperatureByCity(city);
-            this.logger.log(`End service getRecomendation - Request - ${JSON.stringify({ response })}`);
+            this.logger.log(`End service getRecomendation - Response - ${JSON.stringify({ response })}`);
             return city;
         } catch (error) {
             this.logger.error(`Error service getRecomendation - Error - ${JSON.stringify({ error })}`);

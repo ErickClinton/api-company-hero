@@ -32,7 +32,7 @@ export class AuthenticationService {
 
             const token = response.access_token;
             this.token = token;
-            this.logger.log(`End service getToken - Request - ${JSON.stringify({ token })}`);
+            this.logger.log(`End service getToken - Response - ${JSON.stringify({ token })}`);
         } catch (error) {
             this.logger.error(`Error service getToken - Error - ${JSON.stringify({ error })}`);
             throw new Error(error);
@@ -47,7 +47,7 @@ export class AuthenticationService {
             loginRequest.client_secret = this.apiClientSecret;
             loginRequest.client_id = this.apiClientIdSpotify;
 
-            this.logger.log(`End service createRequestLogin - Request - ${JSON.stringify({ loginRequest })}`);
+            this.logger.log(`End service createRequestLogin - Response - ${JSON.stringify({ loginRequest })}`);
             return loginRequest;
         } catch (error) {
             this.logger.error(`Error service createRequestLogin - Error - ${JSON.stringify({ error })}`);
