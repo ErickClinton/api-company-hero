@@ -8,7 +8,7 @@ export class RecomendationController {
     constructor(private readonly recomendationService: RecomendationService) {}
 
     @Get("/:city")
-    getRecomendation(@Param("city") city: string): string {
+    getRecomendation(@Param("city") city: string): Promise<string> {
         this.logger.log("Start method getRecomendation");
         return this.recomendationService.getRecomendation(city);
     }
