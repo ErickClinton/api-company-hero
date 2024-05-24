@@ -6,13 +6,12 @@ export class RecomendationService {
     private readonly logger = new Logger(RecomendationService.name);
 
     constructor(private readonly openWeatherService: OpenWeatherService) {}
-    getRecomendation(city: string): string {
+    async getRecomendation(city: string): Promise<string> {
         try {
             this.logger.log(`Start service getRecomendation - Request - ${JSON.stringify({ city })}`);
-            const response = this.openWeatherService.getTemperatureByCity(city);
+            const response = await this.openWeatherService.getTemperatureByCity(city);
             this.logger.log(`End service getRecomendation - Request - ${JSON.stringify({ response })}`);
-
-            return response;
+            return city;
         } catch (error) {
             this.logger.error(`Error service getRecomendation - Error - ${JSON.stringify({ error })}`);
             throw new Error(error);
