@@ -1,10 +1,6 @@
 ## Este projeto consiste no desenvolvimento de um serviço que sugere músicas ao usuário com base na temperatura atual da cidade em que ele se encontra.
 
-### Requisitos Funcionais:
-
-#### API Acessível:
-
-O serviço deve ser acessível através de uma API para permitir a integração com diferentes aplicativos e plataformas.
+### 📋 Requisitos Funcionais:
 
 #### Sugestão de Músicas por Temperatura:
 
@@ -14,7 +10,7 @@ O serviço deve aceitar o nome de uma cidade como parâmetro. Com base na temper
 - Se a temperatura estiver abaixo de 10ºC, sugerir músicas do gênero Clássico.
 
 
-## Como rodar o projeto?
+## 🏃‍Como rodar o projeto?
 
 1. Criar o arquivo `.env` e preencher ele com as credenciais:
 
@@ -62,7 +58,7 @@ O serviço deve aceitar o nome de uma cidade como parâmetro. Com base na temper
    ```bash
    docker ps
     ```
-## Estruturação das pastas
+## 📁 Estruturação das pastas
 
 - **api**: Pasta central que agrupa todas as funcionalidades e responsabilidades da nossa API.
 - **cron**: Pasta dedicada aos cronjobs da aplicação, responsável pelas configurações relacionadas às tarefas agendadas.
@@ -72,7 +68,7 @@ O serviço deve aceitar o nome de uma cidade como parâmetro. Com base na temper
 - **dto**: Pasta responsável por armazenar os DTOs (Data Transfer Objects) da aplicação.
 
 
-## Funcionalidades:
+## 🛠️ Funcionalidades:
 
 1. Recomendando playlist pela temperatura:
 
@@ -121,7 +117,7 @@ O serviço deve aceitar o nome de uma cidade como parâmetro. Com base na temper
    ]
    ```
 
-### Detalhamento dos services:
+### 📝 Detalhamento dos services:
 
 ### recomendationService
 1. Método getRecomendation
