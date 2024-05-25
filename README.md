@@ -123,7 +123,7 @@ O serviço deve aceitar o nome de uma cidade como parâmetro. Com base na temper
 
 ### Detalhamento dos services:
 
-1-Método getRecomendation
+1. Método getRecomendation
 
     Este método é responsável por obter uma recomendação de playlists com base na temperatura atual de uma determinada cidade.
     
