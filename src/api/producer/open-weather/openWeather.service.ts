@@ -13,7 +13,7 @@ export class OpenWeatherService {
 
     constructor(private readonly httpService: HttpService) {}
 
-    async getTemperatureByCity(city: string): Promise<number> {
+    public async getTemperatureByCity(city: string): Promise<number> {
         try {
             this.logger.log(`Start service getTemperatureByCity - Request - ${JSON.stringify({ city })}`);
 

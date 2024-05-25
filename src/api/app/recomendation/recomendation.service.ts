@@ -1,8 +1,8 @@
 import { Injectable, Logger } from "@nestjs/common";
-import { SpotifyService } from "../producer/spotify/spotify.service";
-import { ResponsePlaylistDto } from "../producer/spotify/contract/dto/responsePlaylist.dto";
-import { OpenWeatherService } from "../producer/open-weather/openWeather.service";
-import { HandleHttpError } from "../shared/utils/handleHttpError";
+import { HandleHttpError } from "../../shared/utils/handleHttpError";
+import { OpenWeatherService } from "../../producer/open-weather/openWeather.service";
+import { SpotifyService } from "../../producer/spotify/spotify.service";
+import { ResponsePlaylistDto } from "../../producer/spotify/contract/dto/responsePlaylist.dto";
 
 @Injectable()
 export class RecomendationService {
@@ -12,7 +12,7 @@ export class RecomendationService {
         private readonly openWeatherService: OpenWeatherService,
         private readonly spotifyService: SpotifyService
     ) {}
-    async getRecomendation(city: string, quantityPlaylist: number): Promise<ResponsePlaylistDto[]> {
+    public async getRecomendation(city: string, quantityPlaylist: number): Promise<ResponsePlaylistDto[]> {
         try {
             this.logger.log(`Start service getRecomendation - Request - ${JSON.stringify({ city, quantityPlaylist })}`);
             const temperature = await this.openWeatherService.getTemperatureByCity(city);

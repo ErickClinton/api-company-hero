@@ -1,6 +1,6 @@
 import { Controller, Get, Logger, Param, ParseIntPipe } from "@nestjs/common";
 import { RecomendationService } from "./recomendation.service";
-import { ResponsePlaylistDto } from "../producer/spotify/contract/dto/responsePlaylist.dto";
+import { ResponsePlaylistDto } from "../../producer/spotify/contract/dto/responsePlaylist.dto";
 
 @Controller("recomendation")
 export class RecomendationController {
