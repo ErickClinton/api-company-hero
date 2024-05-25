@@ -4,7 +4,7 @@ import { config } from "dotenv";
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
-    await app.listen(9200);
+    await app.listen(3000);
     config();
 }
 bootstrap();
