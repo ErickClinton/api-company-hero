@@ -130,13 +130,37 @@ O serviço deve aceitar o nome de uma cidade como parâmetro. Com base na temper
     #### Parâmetros
     
     - **city**: Uma string contendo o nome da cidade para a qual deseja-se obter a recomendação de playlist.
-      - **quantityPlaylist**: Um número indicando a quantidade de playlists desejadas.
+    - **quantityPlaylist**: Um número indicando a quantidade de playlists desejadas.
     
     #### Retorno
     
     Uma promessa (Promise) que resolve para uma matriz de objetos do tipo `ResponsePlaylistDto`, representando as playlists sugeridas com base na temperatura da cidade fornecida.
     
     #### Funcionamento
-    
-    O método inicia registrando informações de logging indicando o início do processo de obtenção da recomendação de playlists. Em seguida, ele utiliza o serviço `openWeatherService` para obter a temperatura atual da cidade especificada. Com base na temperatura obtida, o método chama o serviço `spotifyService` para buscar playlists adequadas de acordo com as regras de negócio estabelecidas. Após obter as playlists recomendadas, o método registra informações de logging indicando o fim do processo e retorna as playlists. Em caso de erro durante o processo, uma exceção é lançada encapsulada em um objeto `HandleHttpError`.
-        
+
+    - O método inicia registrando informações de logging indicando o início do processo de obtenção da recomendação de playlists.
+    - Em seguida, ele utiliza o serviço openWeatherService para obter a temperatura atual da cidade especificada.
+    - Com base na temperatura obtida, o método chama o serviço spotifyService para buscar playlists adequadas de acordo com as regras de negócio estabelecidas.
+    - Após obter as playlists recomendadas, o método registra informações de logging indicando o fim do processo e retorna as playlists.
+    - Em caso de erro durante o processo, uma exceção é lançada encapsulada em um objeto HandleHttpError.
+
+2. Método getTemperatureByCity
+
+    Este método é responsável por obter a temperatura atual de uma cidade por meio de uma chamada à API OpenWeather.
+
+    - **Parâmetros**
+      - `city`: Uma string contendo o nome da cidade para a qual deseja-se obter a temperatura.
+
+    - **Retorno**
+      - Uma promessa (Promise) que resolve para um número representando a temperatura atual da cidade.
+
+    - **Funcionamento**
+      - O método inicia registrando informações de logging indicando o início do processo de obtenção da temperatura da cidade especificada.
+      - Em seguida, ele faz uma requisição à API OpenWeather para obter os dados de temperatura da cidade.
+      - Se a cidade não for encontrada (status 404), uma exceção do tipo HttpException é lançada com uma mensagem indicando o problema.
+      - Se ocorrer qualquer outro erro durante o processo, uma exceção do tipo HttpException é lançada com uma mensagem de erro genérica.
+      - Caso contrário, o método registra informações de logging indicando o fim do processo e retorna a temperatura obtida.
+
+
+
+
