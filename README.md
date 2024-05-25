@@ -146,7 +146,7 @@ O serviço deve aceitar o nome de uma cidade como parâmetro. Com base na temper
     - Em caso de erro durante o processo, uma exceção é lançada encapsulada em um objeto HandleHttpError.
 
 
-### openWeatherService
+### OpenWeatherService
 
 1. Método GetTemperatureByCity
 
@@ -165,7 +165,7 @@ O serviço deve aceitar o nome de uma cidade como parâmetro. Com base na temper
       - Se ocorrer qualquer outro erro durante o processo, uma exceção do tipo HttpException é lançada com uma mensagem de erro genérica.
       - Caso contrário, o método registra informações de logging indicando o fim do processo e retorna a temperatura obtida.
 
-### authenticationService
+### AuthenticationService
 
 1. Método SetToken
 
@@ -206,7 +206,7 @@ O serviço deve aceitar o nome de uma cidade como parâmetro. Com base na temper
         - Cria um novo objeto do tipo RequestLoginDto e preenche seus atributos com os valores adequados, incluindo grant_type, client_secret e client_id.
         - Registra informações de logging indicando o fim do processo e retorna o objeto de requisição de login.
 
-### spotifyService
+### SpotifyService
 
 1. Método GetPlaylist
 
@@ -264,7 +264,7 @@ O serviço deve aceitar o nome de uma cidade como parâmetro. Com base na temper
        - Registra informações de logging indicando o fim do processo e retorna a matriz de playlists convertidas.
        - Se ocorrer qualquer erro durante o processo, uma exceção é lançada encapsulada em um objeto HandleHttpError.
 
-### cronService
+### CronService
 
 1. Método RefreshTokenSpotify
 
