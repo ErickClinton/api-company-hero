@@ -1,9 +1,9 @@
-import { HttpException, Injectable, Logger } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable, Logger } from "@nestjs/common";
 import * as process from "process";
 import { HttpService } from "@nestjs/axios";
 import { ResponseOpenWeatherApiContract } from "./contract/responseOpenWeatherApi.contract";
 import { firstValueFrom } from "rxjs";
-import { HttpStatusCode } from "axios";
+import { HandleHttpError } from "../../shared/utils/handleHttpError";
 
 @Injectable()
 export class OpenWeatherService {
@@ -24,7 +24,14 @@ export class OpenWeatherService {
             const response: ResponseOpenWeatherApiContract = await firstValueFrom(observable)
                 .then((res) => res.data)
                 .catch((err) => {
-                    throw new HttpException(JSON.stringify(err), HttpStatusCode.BadRequest);
+                    if (err.response?.status === 404) {
+                        throw new HttpException(
+                            `City not found - ${city}. Please check the input.`,
+                            HttpStatus.NOT_FOUND
+                        );
+                    } else {
+                        throw new HttpException(JSON.stringify(err), HttpStatus.BAD_REQUEST);
+                    }
                 });
             const temperature = response.main.temp;
 
@@ -33,7 +40,7 @@ export class OpenWeatherService {
             return temperature;
         } catch (error) {
             this.logger.error(`Error service getTemperatureByCity - Error - ${JSON.stringify({ error })}`);
-            throw new Error(error);
+            throw HandleHttpError.return(error);
         }
     }
 }
