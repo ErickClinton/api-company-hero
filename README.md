@@ -120,3 +120,23 @@ O serviço deve aceitar o nome de uma cidade como parâmetro. Com base na temper
       }
    ]
    ```
+
+### Detalhamento dos services:
+
+1-Método getRecomendation
+
+    Este método é responsável por obter uma recomendação de playlists com base na temperatura atual de uma determinada cidade.
+    
+    #### Parâmetros
+    
+    - **city**: Uma string contendo o nome da cidade para a qual deseja-se obter a recomendação de playlist.
+      - **quantityPlaylist**: Um número indicando a quantidade de playlists desejadas.
+    
+    #### Retorno
+    
+    Uma promessa (Promise) que resolve para uma matriz de objetos do tipo `ResponsePlaylistDto`, representando as playlists sugeridas com base na temperatura da cidade fornecida.
+    
+    #### Funcionamento
+    
+    O método inicia registrando informações de logging indicando o início do processo de obtenção da recomendação de playlists. Em seguida, ele utiliza o serviço `openWeatherService` para obter a temperatura atual da cidade especificada. Com base na temperatura obtida, o método chama o serviço `spotifyService` para buscar playlists adequadas de acordo com as regras de negócio estabelecidas. Após obter as playlists recomendadas, o método registra informações de logging indicando o fim do processo e retorna as playlists. Em caso de erro durante o processo, uma exceção é lançada encapsulada em um objeto `HandleHttpError`.
+        
