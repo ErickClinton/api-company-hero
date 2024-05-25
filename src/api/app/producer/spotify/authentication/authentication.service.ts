@@ -12,10 +12,11 @@ export class AuthenticationService {
     private readonly grantType = "client_credentials";
     private readonly apiClientIdSpotify = process.env.API_CLIENT_ID_SPOTIFY;
     private readonly apiClientSecret = process.env.API_CLIENT_SECRET;
-    public token;
+    public token: string;
+
     constructor(private readonly httpService: HttpService) {}
 
-    public async getToken(): Promise<void> {
+    public async setToken(): Promise<void> {
         try {
             this.logger.log(`Start service getToken`);
 
@@ -37,6 +38,14 @@ export class AuthenticationService {
             this.logger.error(`Error service getToken - Error - ${JSON.stringify({ error })}`);
             throw new Error(error);
         }
+    }
+
+    public async getToken(): Promise<string> {
+        if (!this.token) {
+            await this.setToken();
+        }
+        this.logger.warn(this.token);
+        return this.token;
     }
 
     private createRequestLogin(): RequestLoginDto {
