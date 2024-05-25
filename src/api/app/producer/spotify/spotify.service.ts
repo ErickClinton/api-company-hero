@@ -1,11 +1,11 @@
-import { HttpException, Injectable, Logger } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable, Logger } from "@nestjs/common";
 import { MusicalGenreEnum } from "../../shared/enum/musicalGenre.enum";
 import { HttpService } from "@nestjs/axios";
 import { AuthenticationService } from "./authentication/authentication.service";
 import { firstValueFrom } from "rxjs";
-import { HttpStatusCode } from "axios";
 import { ResponsePlaylistContract } from "./contract/responsePlaylist.contract";
 import { ResponsePlaylistDto } from "./contract/dto/responsePlaylist.dto";
+import { HandleHttpError } from "../../shared/utils/handleHttpError";
 
 @Injectable()
 export class SpotifyService {
@@ -17,14 +17,13 @@ export class SpotifyService {
         private readonly authenticationService: AuthenticationService
     ) {}
 
-    public async getMusics(temperature: number, quantityPlaylist: number): Promise<ResponsePlaylistDto[]> {
+    public async getPlaylist(temperature: number, quantityPlaylist: number): Promise<ResponsePlaylistDto[]> {
         try {
-            this.logger.log(`Start service getMusics - Request - ${JSON.stringify({ temperature })}`);
+            this.logger.log(`Start service getPlaylist - Request - ${JSON.stringify({ temperature })}`);
 
             const token = await this.authenticationService.getToken();
-
             const musicalGenre = this.getMusicalGenre(temperature);
-            this.logger.log(musicalGenre);
+
             const observable = this.httpService.get(
                 `${this.baseUrl}/search?q=${musicalGenre}&type=playlist&limit=${quantityPlaylist}`,
                 {
@@ -38,14 +37,22 @@ export class SpotifyService {
             const response: ResponsePlaylistContract = await firstValueFrom(observable)
                 .then((res) => res.data)
                 .catch((err) => {
-                    throw new HttpException(JSON.stringify(err), HttpStatusCode.BadRequest);
+                    if (err.response?.status === 401) {
+                        throw new HttpException(
+                            `Not authorized. check if the token was successfully retrieved.`,
+                            HttpStatus.UNAUTHORIZED
+                        );
+                    } else {
+                        throw new HttpException(JSON.stringify(err), HttpStatus.BAD_REQUEST);
+                    }
                 });
             const playlistDto = this.createResponsePlaylist(response);
 
-            this.logger.log(`End service getMusics - Response - ${JSON.stringify({ playlistDto })}`);
+            this.logger.log(`End service getPlaylist - Response - ${JSON.stringify({ playlistDto })}`);
             return playlistDto;
         } catch (error) {
-            this.logger.error(`Error service getMusics - Error - ${error.message}`);
+            this.logger.error(`Error service getPlaylist - Error - ${error.message}`);
+            throw HandleHttpError.return(error);
         }
     }
 
@@ -61,14 +68,14 @@ export class SpotifyService {
             }
         } catch (error) {
             this.logger.error(`Error service getTemperatureByCity - Error - ${JSON.stringify({ error })}`);
-            throw new Error(error);
+            throw HandleHttpError.return(error);
         }
     }
 
     private createResponsePlaylist(responsePlaylistsContract: ResponsePlaylistContract): ResponsePlaylistDto[] {
         try {
             this.logger.log(
-                `Start service getMusicalGenre - Request - ${JSON.stringify({ responsePlaylistsContract })}`
+                `Start service createResponsePlaylist - Request - ${JSON.stringify({ responsePlaylistsContract })}`
             );
             const playlists: ResponsePlaylistDto[] = [];
             const playlistsContract = responsePlaylistsContract.playlists.items;
@@ -81,12 +88,12 @@ export class SpotifyService {
                 playlists.push(responsePlaylist);
             }
 
-            this.logger.log(`Start service getMusicalGenre - Request - ${JSON.stringify({ playlists })}`);
+            this.logger.log(`Start service createResponsePlaylist - Response - ${JSON.stringify({ playlists })}`);
 
             return playlists;
         } catch (error) {
             this.logger.error(`Error service createResponsePlaylist - Error - ${JSON.stringify({ error })}`);
-            throw new Error(error);
+            throw HandleHttpError.return(error);
         }
     }
 }

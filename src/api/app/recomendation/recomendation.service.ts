@@ -2,6 +2,7 @@ import { Injectable, Logger } from "@nestjs/common";
 import { SpotifyService } from "../producer/spotify/spotify.service";
 import { ResponsePlaylistDto } from "../producer/spotify/contract/dto/responsePlaylist.dto";
 import { OpenWeatherService } from "../producer/open-weather/openWeather.service";
+import { HandleHttpError } from "../shared/utils/handleHttpError";
 
 @Injectable()
 export class RecomendationService {
@@ -15,12 +16,12 @@ export class RecomendationService {
         try {
             this.logger.log(`Start service getRecomendation - Request - ${JSON.stringify({ city, quantityPlaylist })}`);
             const temperature = await this.openWeatherService.getTemperatureByCity(city);
-            const playlists = await this.spotifyService.getMusics(temperature, quantityPlaylist);
+            const playlists = await this.spotifyService.getPlaylist(temperature, quantityPlaylist);
             this.logger.log(`End service getRecomendation - Response - ${JSON.stringify({ playlists })}`);
             return playlists;
         } catch (error) {
             this.logger.error(`Error service getRecomendation - Error - ${JSON.stringify({ error })}`);
-            throw new Error(error);
+            throw HandleHttpError.return(error);
         }
     }
 }

@@ -4,6 +4,7 @@ import { firstValueFrom } from "rxjs";
 import { HttpStatusCode } from "axios";
 import { RequestLoginDto } from "./dto/request-login.dto";
 import { ResponseAuthenticationContract } from "./contract/response-authentication.contract";
+import { HandleHttpError } from "../../../shared/utils/handleHttpError";
 
 @Injectable()
 export class AuthenticationService {
@@ -18,7 +19,7 @@ export class AuthenticationService {
 
     public async setToken(): Promise<void> {
         try {
-            this.logger.log(`Start service getToken`);
+            this.logger.log(`Start service setToken`);
 
             const loginParams = this.createRequestLogin();
             const observable = this.httpService.post(this.baseUrl, loginParams, {
@@ -33,18 +34,19 @@ export class AuthenticationService {
 
             const token = response.access_token;
             this.token = token;
-            this.logger.log(`End service getToken - Response - ${JSON.stringify({ token })}`);
+            this.logger.log(`End service setToken - Response - ${JSON.stringify({ token })}`);
         } catch (error) {
-            this.logger.error(`Error service getToken - Error - ${JSON.stringify({ error })}`);
-            throw new Error(error);
+            this.logger.error(`Error service setToken - Error - ${JSON.stringify({ error })}`);
+            throw HandleHttpError.return(error);
         }
     }
 
     public async getToken(): Promise<string> {
+        this.logger.log("Start service getToken");
         if (!this.token) {
             await this.setToken();
         }
-        this.logger.warn(this.token);
+        this.logger.log(`End service getToken - Response - ${this.token}`);
         return this.token;
     }
 
@@ -60,7 +62,7 @@ export class AuthenticationService {
             return loginRequest;
         } catch (error) {
             this.logger.error(`Error service createRequestLogin - Error - ${JSON.stringify({ error })}`);
-            throw new Error(error);
+            throw HandleHttpError.return(error);
         }
     }
 }
