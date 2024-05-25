@@ -1,73 +1,72 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+## Este projeto consiste no desenvolvimento de um serviço que sugere músicas ao usuário com base na temperatura atual da cidade em que ele se encontra. A ideia surgiu a partir de um estudo que revelou uma relação entre as preferências musicais das pessoas e a temperatura ambiente.
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+### Requisitos Funcionais:
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+#### API Acessível:
 
-## Description
+O serviço deve ser acessível através de uma API para permitir a integração com diferentes aplicativos e plataformas.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+#### Sugestão de Músicas por Temperatura:
 
-## Installation
+O serviço deve aceitar o nome de uma cidade como parâmetro. Com base na temperatura atual da cidade fornecida, o serviço deve retornar uma playlist sugerida. As sugestões de músicas devem seguir as seguintes diretrizes:
+- Se a temperatura estiver acima de 25ºC, sugerir músicas do gênero Pop.
+- Se a temperatura estiver entre 10ºC e 25ºC, sugerir músicas do gênero Rock.
+- Se a temperatura estiver abaixo de 10ºC, sugerir músicas do gênero Clássico.
+
+
+## Como rodar o projeto?
+
+1. Criar o arquivo `.env` e preencher ele com as credenciais:
 
 ```bash
-$ npm install
+   API_KEY_OPEN_WEATHER=
+API_CLIENT_ID_SPOTIFY=
+API_CLIENT_SECRET=
 ```
 
-## Running the app
+2. Rodar o comando `npm i`.
 
-```bash
-# development
-$ npm run start
+3. Configurar o Docker:
 
-# watch mode
-$ npm run start:dev
+  - Certifique-se de ter o Docker instalado e em execução no seu sistema.
+  - Crie um arquivo `Dockerfile` na raiz do projeto para definir a configuração do contêiner Docker.
 
-# production mode
-$ npm run start:prod
-```
+### Construir a imagem Docker:
 
-## Test
+- Abra um terminal na raiz do projeto. Execute o seguinte comando para construir a imagem Docker:
 
-```bash
-# unit tests
-$ npm run test
+   ```bash
+   docker build -t nome_da_imagem .
 
-# e2e tests
-$ npm run test:e2e
+4. Abra um terminal na raiz do projeto.
 
-# test coverage
-$ npm run test:cov
-```
+   Execute o seguinte comando para construir a imagem Docker:
 
-## Support
+   ```bash
+   docker build -t nome_da_imagem .
+    ```
+    Substitua nome_da_imagem pelo nome que você deseja dar à imagem Docker.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
 
-## Stay in touch
+5. Executar o contêiner Docker:
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+   Após a construção da imagem, execute o seguinte comando para iniciar o contêiner Docker:
 
-## License
+   ```bash
+   docker run -p 3000:3000 -d nome_da_imagem
+    ```
+    Isso iniciará o contêiner Docker em segundo plano e encaminhará o tráfego da porta 3000 do contêiner para a porta 3000 do host.6. Verificar se o contêiner está em execução:
 
-Nest is [MIT licensed](LICENSE).
+   Você pode verificar se o contêiner está em execução usando o comando:
+
+   ```bash
+   docker ps
+    ```
+## Estruturação das pastas
+
+- **api**: Pasta central que agrupa todas as funcionalidades e responsabilidades da nossa API.
+- **cron**: Pasta dedicada aos cronjobs da aplicação, responsável pelas configurações relacionadas às tarefas agendadas.
+- **producer**: Pasta responsável por gerenciar as chamadas para APIs externas, onde os dados retornados serão utilizados na nossa API.
+- **app**: Pasta central que concentra as funcionalidades da minha aplicação, onde cada subdiretório representa uma feature específica.
+- **contract**: Pasta dedicada à definição de tipos para todas as respostas das chamadas de API. Isso facilita a futura manutenção e a adição de novos valores ao sistema, garantindo que todo o retorno das chamadas esteja devidamente mapeado.
+- **dto**: Pasta responsável por armazenar os DTOs (Data Transfer Objects) da aplicação.
