@@ -123,6 +123,7 @@ O serviço deve aceitar o nome de uma cidade como parâmetro. Com base na temper
 
 ### Detalhamento dos services:
 
+### recomendationService
 1. Método getRecomendation
 
     Este método é responsável por obter uma recomendação de playlists com base na temperatura atual de uma determinada cidade.
@@ -144,7 +145,10 @@ O serviço deve aceitar o nome de uma cidade como parâmetro. Com base na temper
     - Após obter as playlists recomendadas, o método registra informações de logging indicando o fim do processo e retorna as playlists.
     - Em caso de erro durante o processo, uma exceção é lançada encapsulada em um objeto HandleHttpError.
 
-2. Método getTemperatureByCity
+
+### openWeatherService
+
+1. Método getTemperatureByCity
 
     Este método é responsável por obter a temperatura atual de uma cidade por meio de uma chamada à API OpenWeather.
 
@@ -161,6 +165,114 @@ O serviço deve aceitar o nome de uma cidade como parâmetro. Com base na temper
       - Se ocorrer qualquer outro erro durante o processo, uma exceção do tipo HttpException é lançada com uma mensagem de erro genérica.
       - Caso contrário, o método registra informações de logging indicando o fim do processo e retorna a temperatura obtida.
 
+### authenticationService
+
+1. Método setToken
+
+    Este método é responsável por realizar a autenticação e obter o token de acesso necessário para as chamadas à API Spotify.
+
+    - **Retorno**:
+    - Uma promessa (Promise) que resolve sem nenhum valor (void).
+
+    - **Funcionamento**:
+        - O método inicia registrando informações de logging indicando o início do processo de autenticação.
+        - Em seguida, ele constrói os parâmetros de login e faz uma requisição POST para a API Spotify para obter o token de acesso.
+        - Se ocorrer qualquer erro durante o processo, uma exceção do tipo `HttpException` é lançada com uma mensagem de erro genérica.
+        - Caso contrário, o método armazena o token obtido, registra informações de logging indicando o fim do processo e retorna.
 
 
 
+2. Método getToken
+
+    Este método é responsável por obter o token de acesso necessário para as chamadas à API Spotify. Se o token ainda não estiver disponível, ele chama o método `setToken` para realizar a autenticação e obter o token.
+
+    - **Retorno**:
+    - Uma promessa (Promise) que resolve para uma string representando o token de acesso.
+
+    - **Funcionamento**:
+        - O método inicia registrando informações de logging indicando o início do processo de obtenção do token.
+        - Verifica se o token já está disponível. Se não estiver, chama o método `setToken` para realizar a autenticação.
+        - Após obter o token, registra informações de logging indicando o fim do processo e retorna o token.
+
+3. Método createRequestLogin
+
+    Este método é responsável por criar e retornar um objeto do tipo RequestLoginDto, contendo os parâmetros necessários para realizar a autenticação na API do Spotify.
+
+    - **Retorno**:
+    - Um objeto do tipo RequestLoginDto contendo os parâmetros necessários para a autenticação.
+
+    - **Funcionamento**:
+        - O método inicia registrando informações de logging indicando o início do processo de criação do objeto de requisição de login.
+        - Cria um novo objeto do tipo RequestLoginDto e preenche seus atributos com os valores adequados, incluindo grant_type, client_secret e client_id.
+        - Registra informações de logging indicando o fim do processo e retorna o objeto de requisição de login.
+
+### spotifyService
+
+1. Método getPlaylist
+
+    Este método é responsável por obter playlists adequadas com base na temperatura atual e na quantidade desejada, realizando uma chamada à API do Spotify.
+
+   - **Parâmetros**:
+       - `temperature`: Um número representando a temperatura atual.
+       - `quantityPlaylist`: Um número indicando a quantidade de playlists desejadas.
+
+   - **Retorno**:
+       - Uma promessa (Promise) que resolve para uma matriz de objetos do tipo ResponsePlaylistDto, representando as playlists sugeridas com base na temperatura e quantidade especificadas.
+
+   - **Funcionamento**:
+       - O método inicia registrando informações de logging indicando o início do processo de obtenção das playlists.
+       - Obtém o token de autenticação necessário para acessar a API do Spotify.
+       - Determina o gênero musical com base na temperatura fornecida.
+       - Realiza uma requisição à API do Spotify para buscar playlists do gênero musical determinado e com a quantidade especificada.
+       - Se a requisição não for autorizada (status 401), uma exceção do tipo HttpException é lançada com uma mensagem indicando o problema.
+       - Se ocorrer qualquer outro erro durante o processo, uma exceção do tipo HttpException é lançada com uma mensagem de erro genérica.
+       - Caso contrário, o método registra informações de logging indicando o fim do processo, cria objetos ResponsePlaylistDto com base nos dados retornados pela API do Spotify e retorna as playlists obtidas.
+
+2. Método getMusicalGenre
+
+    Este método é responsável por determinar o gênero musical com base na temperatura fornecida.
+
+   - **Parâmetros**:
+       - `temperature`: Um número representando a temperatura atual.
+
+   - **Retorno**:
+       - Um valor do tipo MusicalGenreEnum representando o gênero musical determinado.
+
+   - **Funcionamento**:
+       - O método inicia registrando informações de logging indicando o início do processo de determinação do gênero musical.
+       - Com base na temperatura fornecida, determina o gênero musical de acordo com as seguintes regras:
+           - Se a temperatura for superior a 25ºC, retorna o gênero Pop.
+           - Se a temperatura estiver entre 10ºC e 25ºC, retorna o gênero Rock.
+           - Caso contrário, retorna o gênero Clássico.
+       - Se ocorrer qualquer erro durante o processo, uma exceção é lançada encapsulada em um objeto HandleHttpError.
+
+3. Método createResponsePlaylist
+
+    Este método é responsável por converter o contrato de resposta das playlists em objetos do tipo ResponsePlaylistDto.
+
+   - **Parâmetros**:
+       - `responsePlaylistsContract`: Um objeto contendo o contrato de resposta das playlists da API Spotify.
+
+   - **Retorno**:
+       - Uma matriz de objetos do tipo ResponsePlaylistDto representando as playlists convertidas.
+
+   - **Funcionamento**:
+       - O método inicia registrando informações de logging indicando o início do processo de conversão das playlists.
+       - Itera sobre cada playlist no contrato de resposta.
+       - Para cada playlist, cria um novo objeto ResponsePlaylistDto e popula seus campos com os dados da playlist correspondente no contrato.
+       - Adiciona o objeto ResponsePlaylistDto à matriz de playlists.
+       - Registra informações de logging indicando o fim do processo e retorna a matriz de playlists convertidas.
+       - Se ocorrer qualquer erro durante o processo, uma exceção é lançada encapsulada em um objeto HandleHttpError.
+
+### cronService
+
+1. Método refreshTokenSpotify
+
+    Este método é responsável por renovar o token de autenticação do Spotify periodicamente.
+
+   - **Funcionamento**:
+       - O método é executado periodicamente de acordo com a configuração de cron, a cada 55 minutos.
+       - Inicia registrando informações de logging indicando o início do processo de renovação do token.
+       - Chama o método `getToken` do serviço de autenticação para obter um novo token do Spotify.
+       - Registra informações de logging indicando o fim do processo.
+       - Se ocorrer qualquer erro durante o processo, uma exceção é lançada encapsulada em um objeto HandleHttpError.
