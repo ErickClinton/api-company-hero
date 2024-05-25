@@ -1,7 +1,7 @@
 import { Injectable, Logger } from "@nestjs/common";
-import { AuthenticationService } from "../producer/spotify/authentication/authentication.service";
 import { Cron } from "@nestjs/schedule";
 import { HandleHttpError } from "../shared/utils/handleHttpError";
+import { AuthenticationService } from "../producer/spotify/authentication/authentication.service";
 
 @Injectable()
 export class CronService {

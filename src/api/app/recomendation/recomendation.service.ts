@@ -1,8 +1,8 @@
 import { Injectable, Logger } from "@nestjs/common";
-import { SpotifyService } from "../producer/spotify/spotify.service";
-import { ResponsePlaylistDto } from "../producer/spotify/contract/dto/responsePlaylist.dto";
-import { OpenWeatherService } from "../producer/open-weather/openWeather.service";
-import { HandleHttpError } from "../shared/utils/handleHttpError";
+import { HandleHttpError } from "../../shared/utils/handleHttpError";
+import { OpenWeatherService } from "../../producer/open-weather/openWeather.service";
+import { SpotifyService } from "../../producer/spotify/spotify.service";
+import { ResponsePlaylistDto } from "../../producer/spotify/contract/dto/responsePlaylist.dto";
 
 @Injectable()
 export class RecomendationService {
