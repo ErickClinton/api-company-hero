@@ -12,7 +12,7 @@ export class CronService {
     public async refreshTokenSpotify(): Promise<void> {
         try {
             this.logger.log(`Start service refreshTokenSpotify`);
-            await this.authenticationService.getToken();
+            await this.authenticationService.setToken();
             this.logger.log(`End service refreshTokenSpotify `);
         } catch (error) {
             this.logger.error(`Error service refreshTokenSpotify - Error - ${error}`);
