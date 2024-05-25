@@ -1,4 +1,4 @@
-## Este projeto consiste no desenvolvimento de um serviço que sugere músicas ao usuário com base na temperatura atual da cidade em que ele se encontra. A ideia surgiu a partir de um estudo que revelou uma relação entre as preferências musicais das pessoas e a temperatura ambiente.
+## Este projeto consiste no desenvolvimento de um serviço que sugere músicas ao usuário com base na temperatura atual da cidade em que ele se encontra.
 
 ### Requisitos Funcionais:
 
@@ -148,7 +148,7 @@ O serviço deve aceitar o nome de uma cidade como parâmetro. Com base na temper
 
 ### openWeatherService
 
-1. Método getTemperatureByCity
+1. Método GetTemperatureByCity
 
     Este método é responsável por obter a temperatura atual de uma cidade por meio de uma chamada à API OpenWeather.
 
@@ -167,7 +167,7 @@ O serviço deve aceitar o nome de uma cidade como parâmetro. Com base na temper
 
 ### authenticationService
 
-1. Método setToken
+1. Método SetToken
 
     Este método é responsável por realizar a autenticação e obter o token de acesso necessário para as chamadas à API Spotify.
 
@@ -182,7 +182,7 @@ O serviço deve aceitar o nome de uma cidade como parâmetro. Com base na temper
 
 
 
-2. Método getToken
+2. Método GetToken
 
     Este método é responsável por obter o token de acesso necessário para as chamadas à API Spotify. Se o token ainda não estiver disponível, ele chama o método `setToken` para realizar a autenticação e obter o token.
 
@@ -194,7 +194,7 @@ O serviço deve aceitar o nome de uma cidade como parâmetro. Com base na temper
         - Verifica se o token já está disponível. Se não estiver, chama o método `setToken` para realizar a autenticação.
         - Após obter o token, registra informações de logging indicando o fim do processo e retorna o token.
 
-3. Método createRequestLogin
+3. Método CreateRequestLogin
 
     Este método é responsável por criar e retornar um objeto do tipo RequestLoginDto, contendo os parâmetros necessários para realizar a autenticação na API do Spotify.
 
@@ -208,7 +208,7 @@ O serviço deve aceitar o nome de uma cidade como parâmetro. Com base na temper
 
 ### spotifyService
 
-1. Método getPlaylist
+1. Método GetPlaylist
 
     Este método é responsável por obter playlists adequadas com base na temperatura atual e na quantidade desejada, realizando uma chamada à API do Spotify.
 
@@ -228,7 +228,7 @@ O serviço deve aceitar o nome de uma cidade como parâmetro. Com base na temper
        - Se ocorrer qualquer outro erro durante o processo, uma exceção do tipo HttpException é lançada com uma mensagem de erro genérica.
        - Caso contrário, o método registra informações de logging indicando o fim do processo, cria objetos ResponsePlaylistDto com base nos dados retornados pela API do Spotify e retorna as playlists obtidas.
 
-2. Método getMusicalGenre
+2. Método GetMusicalGenre
 
     Este método é responsável por determinar o gênero musical com base na temperatura fornecida.
 
@@ -246,7 +246,7 @@ O serviço deve aceitar o nome de uma cidade como parâmetro. Com base na temper
            - Caso contrário, retorna o gênero Clássico.
        - Se ocorrer qualquer erro durante o processo, uma exceção é lançada encapsulada em um objeto HandleHttpError.
 
-3. Método createResponsePlaylist
+3. Método CreateResponsePlaylist
 
     Este método é responsável por converter o contrato de resposta das playlists em objetos do tipo ResponsePlaylistDto.
 
@@ -266,7 +266,7 @@ O serviço deve aceitar o nome de uma cidade como parâmetro. Com base na temper
 
 ### cronService
 
-1. Método refreshTokenSpotify
+1. Método RefreshTokenSpotify
 
     Este método é responsável por renovar o token de autenticação do Spotify periodicamente.
 
@@ -276,3 +276,13 @@ O serviço deve aceitar o nome de uma cidade como parâmetro. Com base na temper
        - Chama o método `getToken` do serviço de autenticação para obter um novo token do Spotify.
        - Registra informações de logging indicando o fim do processo.
        - Se ocorrer qualquer erro durante o processo, uma exceção é lançada encapsulada em um objeto HandleHttpError.
+
+### Classe HandleHttpError
+
+Esta classe fornece um método estático chamado `return`, que é usado para lidar com erros HTTP. Se o erro não for do tipo 4xx (cliente), ele lança uma exceção HTTP interna do servidor (status 500) com uma mensagem de erro genérica. Caso contrário, lança uma exceção com o status e a mensagem de erro recebidos.
+
+- **Funcionamento**:
+    - O método `return` recebe um erro como argumento.
+    - Verifica se o erro não é do tipo 4xx (cliente).
+    - Se não for, lança uma exceção HTTP interna do servidor (status 500) com uma mensagem de erro genérica.
+    - Caso contrário, lança uma exceção com o status e a mensagem de erro recebidos.
