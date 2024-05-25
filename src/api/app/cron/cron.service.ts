@@ -8,7 +8,7 @@ export class CronService {
     private readonly logger = new Logger(CronService.name);
     constructor(private readonly authenticationService: AuthenticationService) {}
 
-    @Cron("*/55 * * * *")
+    @Cron("55 * * * *")
     public async refreshTokenSpotify(): Promise<void> {
         try {
             this.logger.log(`Start service refreshTokenSpotify`);
