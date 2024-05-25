@@ -1,6 +1,7 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { AuthenticationService } from "../producer/spotify/authentication/authentication.service";
 import { Cron } from "@nestjs/schedule";
+import { HandleHttpError } from "../shared/utils/handleHttpError";
 
 @Injectable()
 export class CronService {
@@ -15,7 +16,7 @@ export class CronService {
             this.logger.log(`End service refreshTokenSpotify `);
         } catch (error) {
             this.logger.error(`Error service refreshTokenSpotify - Error - ${error}`);
-            throw new Error(error);
+            throw HandleHttpError.return(error);
         }
     }
 }
