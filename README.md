@@ -83,6 +83,24 @@ O serviço deve aceitar o nome de uma cidade como parâmetro. Com base na temper
       - Se a temperatura estiver entre 10ºC e 25ºC, será recomendada uma playlist do gênero Rock.
       - Se a temperatura estiver abaixo de 10ºC, será recomendada uma playlist do gênero Clássico.
 
+
+### Endpoints Disponíveis:
+
+1. **GET /recomendation/{cidade}/{quantidade}**: Este endpoint retorna uma lista de playlists recomendadas com base na temperatura da cidade especificada.
+
+### Parâmetros Aceitos:
+
+- **{cidade}**: O nome da cidade para a qual deseja-se obter a recomendação de playlist.
+- **{quantidade}**: O número de playlists que deseja-se receber como resposta.
+
+### Códigos de Status de Resposta:
+
+- **200 OK**: Indica que a requisição foi bem-sucedida. A resposta contém as playlists recomendadas.
+- **400 Bad Request**: Indica que a requisição foi malformada ou contém parâmetros inválidos.
+- **401 Unauthorized**: Usuário não autorizado.
+- **404 Not Found**: Indica que a cidade especificada não pôde ser encontrada ou não possui dados de temperatura disponíveis.
+- **500 Internal Server Error**: Indica um erro interno no servidor.
+
    ### Exemplo de Request:
    ```http
    GET localhost:3000/recomendation/sao%20paulo/2
