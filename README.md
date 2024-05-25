@@ -20,8 +20,8 @@ O serviço deve aceitar o nome de uma cidade como parâmetro. Com base na temper
 
 ```bash
    API_KEY_OPEN_WEATHER=
-API_CLIENT_ID_SPOTIFY=
-API_CLIENT_SECRET=
+   API_CLIENT_ID_SPOTIFY=
+   API_CLIENT_SECRET=
 ```
 
 2. Rodar o comando `npm i`.
@@ -70,3 +70,35 @@ API_CLIENT_SECRET=
 - **app**: Pasta central que concentra as funcionalidades da minha aplicação, onde cada subdiretório representa uma feature específica.
 - **contract**: Pasta dedicada à definição de tipos para todas as respostas das chamadas de API. Isso facilita a futura manutenção e a adição de novos valores ao sistema, garantindo que todo o retorno das chamadas esteja devidamente mapeado.
 - **dto**: Pasta responsável por armazenar os DTOs (Data Transfer Objects) da aplicação.
+
+
+## Funcionalidades:
+
+1. Recomendando playlist pela temperatura:
+
+   - O usuário enviará o nome de uma cidade para a API.
+   - A API será responsável por verificar a temperatura atual da cidade fornecida.
+   - Com base na temperatura, a API retornará uma playlist de acordo com as regras de negócio estabelecidas:
+      - Se a temperatura estiver acima de 25ºC, será recomendada uma playlist do gênero Pop.
+      - Se a temperatura estiver entre 10ºC e 25ºC, será recomendada uma playlist do gênero Rock.
+      - Se a temperatura estiver abaixo de 10ºC, será recomendada uma playlist do gênero Clássico.
+
+   ### Exemplo de Request:
+   ```http
+   GET localhost:3000/recomendation/sao%20paulo/2
+   ```
+   ### Exemplo de Response:
+   ```
+   [
+      {
+      "name": "Mix rock",
+      "link": "https://open.spotify.com/playlist/37i9dQZF1EQpj7X7UK8OOF",
+      "description": "<a href=spotify:playlist:37i9dQZF1EIYWwGqC3GC7o>Linkin Park</a>, <a href=spotify:playlist:37i9dQZF1EIVJW7PzIkjtQ>Creedence Clearwater Revival</a>, <a href=spotify:playlist:37i9dQZF1EIWwyR3K8WKlr>The Police</a> and more"
+      },
+      {
+      "name": "Top Classic Rock Hits Of All Time",
+      "link": "https://open.spotify.com/playlist/1ti3v0lLrJ4KhSTuxt4loZ",
+      "description": ""
+      }
+   ]
+   ```
