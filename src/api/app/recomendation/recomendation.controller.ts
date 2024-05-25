@@ -1,4 +1,4 @@
-import { Controller, Get, Logger, Param } from "@nestjs/common";
+import { Controller, Get, Logger, Param, ParseIntPipe } from "@nestjs/common";
 import { RecomendationService } from "./recomendation.service";
 import { ResponsePlaylistDto } from "../producer/spotify/contract/dto/responsePlaylist.dto";
 
@@ -11,7 +11,7 @@ export class RecomendationController {
     @Get("/:city/:quantity")
     getRecomendation(
         @Param("city") city: string,
-        @Param("quantity") quantityPlaylist: number
+        @Param("quantity", ParseIntPipe) quantityPlaylist: number
     ): Promise<ResponsePlaylistDto[]> {
         this.logger.log("Start method getRecomendation");
         return this.recomendationService.getRecomendation(city, quantityPlaylist);
