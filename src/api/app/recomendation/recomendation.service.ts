@@ -12,7 +12,7 @@ export class RecomendationService {
         private readonly openWeatherService: OpenWeatherService,
         private readonly spotifyService: SpotifyService
     ) {}
-    async getRecomendation(city: string, quantityPlaylist: number): Promise<ResponsePlaylistDto[]> {
+    public async getRecomendation(city: string, quantityPlaylist: number): Promise<ResponsePlaylistDto[]> {
         try {
             this.logger.log(`Start service getRecomendation - Request - ${JSON.stringify({ city, quantityPlaylist })}`);
             const temperature = await this.openWeatherService.getTemperatureByCity(city);
